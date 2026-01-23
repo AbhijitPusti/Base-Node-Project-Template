@@ -56,7 +56,19 @@ async function deleteAirplane(id){
         if(error.statusCode == StatusCodes.NOT_FOUND){
             throw new AppError('The airplane you requsted to delete is not present',error.statusCode);
         }
-        throw new AppError('')
+        throw new AppError('Cannot delete airplane', StatusCodes.INTERNAL_SERVER_ERROR)
+    }
+}
+
+async function updateAirplane(id,data){
+    try {
+        const response = await airplaneRepository.update(id,data);
+        return response;
+    } catch (error) { 
+        if(error.statusCode == StatusCodes.NOT_FOUND){
+            throw new AppError('The airplane you requsted to update is not present',error.statusCode);
+        }
+        throw new AppError('Cannot update airplane', StatusCodes.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -64,5 +76,6 @@ module.exports = {
     createAirplane,
     getAllAirplanes,
     getAirplane,
-    deleteAirplane
+    deleteAirplane,
+    updateAirplane
 }
